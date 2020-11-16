@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.VistaPrincipalController">
+   <children>
+      <Text layoutX="132.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Casa Matriz">
+         <font>
+            <Font name="Arial Bold" size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="30.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nueva sucursal">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="98.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevos precios a fijar por litro">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="30.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione una sucursal">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="70.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="93" />
+      <Text layoutX="30.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cambiar precios" wrappingWidth="152.67578125">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Text>
+      <Separator layoutX="9.0" layoutY="56.0" prefHeight="0.0" prefWidth="374.0" />
+      <Separator layoutX="2.0" layoutY="108.0" prefHeight="3.0" prefWidth="374.0" />
+      <Button fx:id="nuevaSucursalBtn" layoutX="230.0" layoutY="74.0" mnemonicParsing="false" onAction="#nuevaSucursal" prefHeight="25.0" prefWidth="150.0" text="nueva sucursal">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Button>
+      <ComboBox fx:id="listaSucursales" layoutX="230.0" layoutY="146.0" onAction="#mostrarListaSucursales" prefWidth="150.0" promptText="Sucursales" />
+      <Text layoutX="70.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="95" />
+      <Text layoutX="70.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="97" />
+      <Text layoutX="64.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Diesel" />
+      <Text layoutX="58.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kerosene" />
+      <TextField fx:id="precio93Fild" layoutX="160.0" layoutY="230.0" />
+      <TextField fx:id="precio95Fild" layoutX="160.0" layoutY="260.0" />
+      <TextField fx:id="precio97Fild" layoutX="160.0" layoutY="290.0" />
+      <TextField fx:id="precioDieselFild" layoutX="160.0" layoutY="320.0" />
+      <Separator layoutX="27.0" layoutY="452.0" prefHeight="3.0" prefWidth="343.0" />
+      <Button fx:id="actualizarDatosBtn" layoutX="25.0" layoutY="399.0" mnemonicParsing="false" onAction="#actualizarDatosDePreciosPorSocursal" prefHeight="26.0" prefWidth="350.0" text="Actualizar precios">
+         <font>
+            <Font name="Arial Italic" size="14.0" />
+         </font>
+      </Button>
+      <Text layoutX="139.0" layoutY="474.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informe de ventas">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="preciokerosenFild" layoutX="160.0" layoutY="350.0" />
+      <Text layoutX="30.0" layoutY="506.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione una sucursal">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="listaSucursalesInformeBox" layoutX="216.0" layoutY="487.0" onAction="#mostrarListaSucursales" prefWidth="150.0" promptText="Sucursales" />
+      <Text layoutX="30.0" layoutY="546.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de combustible">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="tiposDeCombustibleBox" layoutX="216.0" layoutY="530.0" onAction="#mostrarTiposDeCombustible" prefWidth="150.0" promptText="Combustibles" />
+      <Button fx:id="generarInformeBtn" layoutX="25.0" layoutY="560.0" mnemonicParsing="false" onAction="#generarInforme" prefHeight="26.0" prefWidth="350.0" text="Generar informe">
+         <font>
+            <Font name="Arial Italic" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
