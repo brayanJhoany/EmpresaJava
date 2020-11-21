@@ -5,17 +5,25 @@
  */
 package Controlador;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
+import Modelo.ConexionEstacionDeServicio;
+import Modelo.EstacionDeServicio;
+import Modelo.Precios;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -23,12 +31,12 @@ import javafx.scene.input.MouseEvent;
  * @author braya
  */
 public class VistaPrincipalController implements Initializable {
-
+    
     @FXML
     private Button nuevaSucursalBtn;
     @FXML
     private ComboBox<String> listaSucursales;
-
+    
     @FXML
     private TextField precio93Fild;
     @FXML
@@ -41,13 +49,16 @@ public class VistaPrincipalController implements Initializable {
     private Button actualizarDatosBtn;
     @FXML
     private TextField preciokerosenFild = new TextField();
-
+    
     @FXML
     private ComboBox<String> tiposDeCombustibleBox;
     @FXML
     private Button generarInformeBtn;
     @FXML
     private ComboBox<String> listaSucursalesInforme;
+    
+    static ArrayList<EstacionDeServicio> listaSucursalesStatic = new ArrayList<>();
+    ConexionEstacionDeServicio conexion;
 
     public VistaPrincipalController() {
         this.listaSucursalesInforme = new ComboBox<>();
@@ -60,6 +71,7 @@ public class VistaPrincipalController implements Initializable {
         this.precio93Fild = new TextField();
         this.listaSucursales = new ComboBox<>();
         this.nuevaSucursalBtn = new Button();
+        this.conexion = new ConexionEstacionDeServicio(5000);
     }
 
     /**
@@ -71,53 +83,56 @@ public class VistaPrincipalController implements Initializable {
                 "93", "95", "97", "Diesel", "Kerosene"
         );
         this.listaSucursales.getItems().addAll(
-                "00-Todas", "01-Talca", "02-Linares"
+                "Todas"
         );
         this.listaSucursalesInforme.getItems().addAll(
-                "00-Todas", "01-Talca", "02-Linares"
+                "Todas"
         );
-
+        
     }
-
+    
     @FXML
-    private void nuevaSucursal(ActionEvent event) {
-        System.out.println("Abrir ventana, Nueva sucursal");
+    private void nuevaSucursal(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/NuevaEstacionDeServicio.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Nueva sucursal");
+        stage.setScene(new Scene(root1));
+        stage.setResizable(false);
+        stage.show();
     }
-
+    
     @FXML
     private void actualizarDatosDePreciosPorSocursal(ActionEvent event) {
-
-        String precio93 = this.precio93Fild.getText();
-        String precio95 = this.precio95Fild.getText();
-        String precio97 = this.precio97Fild.getText();
-        String precioDiesel = this.precioDieselFild.getText();
-        String preciokerosen = this.preciokerosenFild.getText();
-        String sucursal = this.listaSucursales.getSelectionModel().getSelectedItem();
-
-        if (precio93 != null && precio95 != null && precio97 != null & precioDiesel != null && preciokerosen != null && sucursal != null) {
-            if (precio93.length() > 0 && precio95.length() > 0 && precio97.length() > 0
-                    && precioDiesel.length() > 0 && preciokerosen.length() > 0 && sucursal.length() > 0) {
-                enviarPrecios(precio93, precio95, precio97, precioDiesel, preciokerosen, sucursal);
-                limpiarFieldPrecios();
-            }
+        if (this.precio93Fild.getText() != null && this.precio95Fild.getText() != null && this.precio97Fild.getText() != null
+                && this.precioDieselFild.getText() != null && this.preciokerosenFild.getText() != null
+                && this.listaSucursales.getSelectionModel().getSelectedItem() != null && this.listaSucursales.getSelectionModel().getSelectedItem().length() > 0) {
+            double precio93 = Double.parseDouble(this.precio93Fild.getText());
+            double precio95 = Double.parseDouble(this.precio95Fild.getText());
+            double precio97 = Double.parseDouble(this.precio97Fild.getText());
+            double precioDiesel = Double.parseDouble(this.precioDieselFild.getText());
+            double preciokerosen = Double.parseDouble(this.preciokerosenFild.getText());
+            String sucursal = this.listaSucursales.getSelectionModel().getSelectedItem();
+            enviarPrecios(precio93, precio95, precio97, precioDiesel, preciokerosen, sucursal);
+            limpiarFieldPrecios();
+        } else {
         }
-
     }
-
+    
     @FXML
     private void generarInforme(ActionEvent event) {
         String sucursal = this.listaSucursalesInforme.getSelectionModel().getSelectedItem();
         String tipoDeCombustible = this.tiposDeCombustibleBox.getSelectionModel().getSelectedItem();
-
+        
         if (sucursal != null && tipoDeCombustible != null && sucursal.length() > 0 && tipoDeCombustible.length() > 0) {
             System.out.println("La socursal es: " + sucursal);
             System.out.println("Tipo de combustible: " + tipoDeCombustible);
         }
-
+        
     }
 
     /**
-     * Envia los nuevos precios a la sucursal especificada
+     * Envia los nuevos precios a la sucursal especificada,
      *
      * @param precio93
      * @param precio95
@@ -125,13 +140,27 @@ public class VistaPrincipalController implements Initializable {
      * @param precioDiesel
      * @param preciokerosen
      */
-    private void enviarPrecios(String precio93, String precio95, String precio97, String precioDiesel, String preciokerosen, String sucursal) {
+    private void enviarPrecios(double precio93, double precio95, double precio97, double precioDiesel, double preciokerosen, String sucursal) {
+        
         System.out.println("Sucursal " + sucursal);
         System.out.println("precio  de 93 : " + precio93);
         System.out.println("precio  de 95 : " + precio95);
         System.out.println("precio  de 97 : " + precio97);
         System.out.println("precio  de Diesel : " + precioDiesel);
         System.out.println("precio  de kerosen : " + preciokerosen);
+        
+        Precios precios = new Precios(precio93, precio95, precio97, precioDiesel, preciokerosen);
+        if (sucursal.equalsIgnoreCase("todas") == true) {
+            System.out.println("Todas");
+            this.conexion.modificarPrecioDeTodasLasEstacionesDeServicio(precios);
+        } else {
+            
+            EstacionDeServicio Estacion = obtenerEstacion(sucursal);
+            this.conexion.añadirEstacionDeServicio(Estacion);
+            this.conexion.modifcarPreciosDeUnaEstacionDeServicio(Estacion.getId(), precios);
+            
+        }
+        
     }
 
     /**
@@ -144,5 +173,33 @@ public class VistaPrincipalController implements Initializable {
         this.precioDieselFild.setText(null);
         this.preciokerosenFild.setText(null);
     }
-
+    
+    @FXML
+    private void listarSucursales(MouseEvent event) {
+        for (int i = 0; i < listaSucursalesStatic.size(); i++) {
+            EstacionDeServicio aux = listaSucursalesStatic.get(i);
+            String dato = "" + aux.getId() + "-" + aux.getDireccion();
+            this.listaSucursales.getItems().removeAll(dato);
+            this.listaSucursalesInforme.getItems().removeAll(dato);
+            this.listaSucursales.getItems().add(dato);
+            this.listaSucursalesInforme.getItems().add(dato);
+            this.conexion.añadirEstacionDeServicio(aux);
+        }
+    }
+    
+    public EstacionDeServicio obtenerEstacion(String id) {
+        System.out.println("La lista a descomponer es :" + id);
+        String[] parts = id.split("-");
+        if (parts.length > 1) {
+            int idEstacion = Integer.parseInt(parts[0]);
+            for (int i = 0; i < listaSucursalesStatic.size(); i++) {
+                EstacionDeServicio estacion = listaSucursalesStatic.get(i);
+                if (estacion.getId() == idEstacion) {
+                    return estacion;
+                }
+                
+            }
+        }
+        return null;
+    }
 }

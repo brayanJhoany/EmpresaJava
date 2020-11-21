@@ -43,7 +43,7 @@
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
-      <ComboBox fx:id="listaSucursales" layoutX="230.0" layoutY="146.0" prefWidth="150.0" promptText="Sucursales" />
+      <ComboBox fx:id="listaSucursales" layoutX="230.0" layoutY="146.0" onMouseClicked="#listarSucursales" prefWidth="150.0" promptText="Sucursales" />
       <Text layoutX="70.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="95" />
       <Text layoutX="70.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="97" />
       <Text layoutX="64.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Diesel" />
@@ -80,6 +80,6 @@
             <Font name="Arial Italic" size="14.0" />
          </font>
       </Button>
-      <ComboBox fx:id="listaSucursalesInforme" layoutX="234.0" layoutY="489.0" prefWidth="150.0" promptText="Sucursales" />
+      <ComboBox fx:id="listaSucursalesInforme" layoutX="234.0" layoutY="489.0" onMouseClicked="#listarSucursales" prefWidth="150.0" promptText="Sucursales" />
    </children>
 </AnchorPane>

@@ -10,7 +10,7 @@ package Modelo;
  * @author Brayan Escobar
  */
 public class EstacionDeServicio {
-    private int id;
+    public int id;
     private String direccion;
     private String ip;
     private int puerto;
