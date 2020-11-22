@@ -5,7 +5,6 @@
  */
 package Modelo;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -36,26 +35,30 @@ public class ConexionEstacionDeServicio {
     public void modifcarPreciosDeUnaEstacionDeServicio(int idEstacion, Precios precios) {
         System.out.println("El identificador de la estadocion es: " + idEstacion);
         EstacionDeServicio estacion = obtenerEstacionDeServicio(idEstacion);
+        System.out.println("precio 93: " + precios.getB93());
+
         if (estacion != null) {
+            final String HOST = "127.0.0.1";
+            DataOutputStream salida;
             try {
-                Socket socket = new Socket(estacion.getIp(), estacion.getPuerto());
-                DataInputStream entrada = new DataInputStream(socket.getInputStream());
-                DataOutputStream salida = new DataOutputStream(socket.getOutputStream());
+                Socket sc = new Socket(HOST, this.puerto);
+
+                salida = new DataOutputStream(sc.getOutputStream());
                 salida.writeInt(1);
                 salida.writeDouble(precios.getB93());
                 salida.writeDouble(precios.getB95());
                 salida.writeDouble(precios.getB97());
                 salida.writeDouble(precios.getDisel());
                 salida.writeDouble(precios.getKerosene());
-                salida.close();
-                salida.close();
-                socket.close();
+                
+               salida.close();
+                sc.close();
+
             } catch (IOException ex) {
                 Logger.getLogger(ConexionEstacionDeServicio.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
-
     }
 
     /**

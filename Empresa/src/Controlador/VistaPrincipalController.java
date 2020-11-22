@@ -141,17 +141,10 @@ public class VistaPrincipalController implements Initializable {
      * @param preciokerosen
      */
     private void enviarPrecios(double precio93, double precio95, double precio97, double precioDiesel, double preciokerosen, String sucursal) {
-        
-        System.out.println("Sucursal " + sucursal);
-        System.out.println("precio  de 93 : " + precio93);
-        System.out.println("precio  de 95 : " + precio95);
-        System.out.println("precio  de 97 : " + precio97);
-        System.out.println("precio  de Diesel : " + precioDiesel);
-        System.out.println("precio  de kerosen : " + preciokerosen);
+
         
         Precios precios = new Precios(precio93, precio95, precio97, precioDiesel, preciokerosen);
         if (sucursal.equalsIgnoreCase("todas") == true) {
-            System.out.println("Todas");
             this.conexion.modificarPrecioDeTodasLasEstacionesDeServicio(precios);
         } else {
             
@@ -188,7 +181,6 @@ public class VistaPrincipalController implements Initializable {
     }
     
     public EstacionDeServicio obtenerEstacion(String id) {
-        System.out.println("La lista a descomponer es :" + id);
         String[] parts = id.split("-");
         if (parts.length > 1) {
             int idEstacion = Integer.parseInt(parts[0]);
